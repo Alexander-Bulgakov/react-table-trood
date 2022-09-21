@@ -1,0 +1,20 @@
+:root {
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+*,
+::before,
+::after {
+  box-sizing: inherit;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  // font-family: 'Roboto';
+  font-family:Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  // overflow: auto;
+  font-size: 1rem;
+}
