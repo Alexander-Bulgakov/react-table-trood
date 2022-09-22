@@ -1,7 +1,7 @@
 import tableData from "./tableData.js";
 
 const getItemsArray = (field) => {
-  const items = [""];
+  const items = ["All"];
   for (let item of tableData) {
     if (!items.includes(item[field])) {
       items.push(item[field]);
@@ -10,5 +10,5 @@ const getItemsArray = (field) => {
   return items;
 }
 
-export const statusFilters = getItemsArray("status");
-export const typeFilters = getItemsArray("type");
+export const status = getItemsArray("status");
+export const type = getItemsArray("type");
