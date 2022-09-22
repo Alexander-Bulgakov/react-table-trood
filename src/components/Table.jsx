@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filter } from "../store/slice/tableSlice.js";
+import { onStatusFilter, onTypeFilter } from "../store/slice/tableSlice.js";
 import "./Table.scss";
 
 export const Table = () => {
-    const [filterState, setFilterState] = useState("");
+    const [statusFilterState, setStatusFilterState] = useState("");
+    const [typeFilterState, setTypeFilterState] = useState("");
     const rows = useSelector(state => state.table.tableRows);
     const filters = useSelector(state => state.table.filters);
     const dispatch = useDispatch();
 
-    const handleChange = (e) => {
-        setFilterState(e.target.value);
-        dispatch(filter(e.target.value));
+    const handleStatusFilter = (e) => {
+        setStatusFilterState(e.target.value);
+        dispatch(onStatusFilter(e.target.value));
+    }
+    const handleTypeFilter = (e) => {
+        console.log(e.target.value);
+        setTypeFilterState(e.target.value);
+        dispatch(onTypeFilter(e.target.value));
     }
 
-    console.log("filterState > ", filterState);
+    console.log("statusFilterState > ", statusFilterState);
 
     console.log("state in table > ", rows);
     return(
@@ -25,15 +31,17 @@ export const Table = () => {
                         <th>
                             <select 
                                 name="select-status" 
-                                onChange={handleChange}
-                                value={filterState}>
+                                onChange={handleStatusFilter}
+                                value={statusFilterState}>
                                 {filters.statusFilters.map((item, index) => (
                                     <option value={item} key={index}>{item}</option>
                                 ))}
                             </select>
                             Project</th>
                         <th>
-                            <select name="select-type" id="">
+                            <select name="select-type" 
+                                value={typeFilterState}
+                                onChange={handleTypeFilter}>
                                 {filters.typeFilters.map((item, index) => (
                                     <option value={item} key={index}>{item}</option>
                                 ))}
