@@ -3,8 +3,32 @@
   table-layout: fixed;
   text-align: center;
   // border: 2px solid gray;
-  border-collapse: separate;
+  border-collapse: collapse;
 }
 th {
+  padding: 0.5em 0.5em;
   cursor: pointer;
+}
+td {
+  padding: 0.5em 0.5em;
+}
+
+.table-row {
+  &_green {
+    background-color: rgba($color: green, $alpha: 0.1);
+  }
+  &_red {
+    background-color: rgba($color: red, $alpha: 0.1);
+  }
+  &_yellow {
+    background-color: rgba($color: yellow, $alpha: 0.1);
+  }
+}
+.circle {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  // background-color: green;
+  margin-right: 0.5em;
 }

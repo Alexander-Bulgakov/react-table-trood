@@ -8,7 +8,7 @@ const initialState = {
     status,
     type,
   },
-  sortedField: "",
+  sortField: "",
   sortOrder: true,
 }
 
@@ -33,19 +33,13 @@ export const tableSlice = createSlice({
       }
     },
     handleSort(state, action) {
-      const sortingArray = [...data]
+      const sortingArray = [...data];
+      state.sortField = action.payload;
       console.log("action.payload > ", action.payload);
       const sortValue = state.sortOrder ? 1 : -1;
 
       state.tableRows = sortingArray.sort((a,b) => {
         return sortValue * (a[action.payload] < b[action.payload] ? -1 : 1);
-        // if (a[action.payload] < b[action.payload]){
-        //   return -1;
-        // }
-        // if (a[action.payload] > b[action.payload]) {
-        //   return 1;
-        // }
-        // return 0;
       })
       state.sortOrder = !state.sortOrder;
     },
