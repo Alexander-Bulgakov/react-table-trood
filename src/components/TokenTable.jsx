@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { onStatusFilter, onTypeFilter } from "../store/slice/tableSlice.js";
 import { SortingIcon } from "./SortingIcon.jsx";
-import sortDown from "../icons/sort-down.svg";
-import sortUp from "../icons/sort-up.svg";
 import "./TokenTable.scss";
 
-export const TokenTable = ({ items, onSort, columns, sortField }) => {
+export const TokenTable = ({ items, onSort, columns, sortField, filters }) => {
     const [statustate, setStatuState] = useState("");
     const [typetate, setTypeState] = useState("");
-    const filters = useSelector(state => state.table.filters);
+    // const filters = useSelector(state => state.table.filters);
     const sortOrder = useSelector(state => state.table.sortOrder);
     const dispatch = useDispatch();
 
@@ -23,15 +21,8 @@ export const TokenTable = ({ items, onSort, columns, sortField }) => {
         dispatch(onTypeFilter(e.target.value));
     }
 
-    const colors = {
-        green: "0,128,0,0.5"
-    }
+    console.log("filters > ", filters);
 
-    // console.log("columns", columns);
-
-    // console.log("statustate > ", statustate);
-
-    // console.log("state in table > ", items);
     return(
         <div>
             <table className="table">
@@ -67,7 +58,7 @@ export const TokenTable = ({ items, onSort, columns, sortField }) => {
                                         {
                                             dataField === sortField ? <SortingIcon sortOrder={sortOrder} /> : ""
                                         } 
-                                        {label}</th>
+                                    {label}</th>
                             )
                         })}
                         {/* <th onClick={() => onSort("name")}>Project</th>

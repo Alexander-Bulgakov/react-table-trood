@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { status, type } from "./data/dataFilters.js";
 // import { onStatusFilter, onTypeFilter } from "./store/slice/tableSlice.js";
 
 import { TokenTable } from "./components/TokenTable.jsx";
 import { handleSort } from "./store/slice/tableSlice.js";
 import "./App.scss";
+
+const filters ={
+    status,
+    type
+}
 
 const columns = [
     {label: "Project", dataField: "name"},
@@ -34,6 +40,7 @@ const App = () => {
                 onSort={onSort}
                 columns={columns}
                 sortField={sortField}
+                filters={filters}
                  />
         </div>
     )
