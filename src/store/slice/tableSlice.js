@@ -1,15 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 import data from "../../data/tableData.js";
-import { status, type } from "../../data/dataFilters.js";
+// import { status, type } from "../../data/dataFilters.js";
 
 const initialState = {
   tableRows: data,
   filters: {
-    status,
-    type,
+    status: "All",
+    type: "All"
   },
   sortField: "",
   sortOrder: true,
+  buyingList: [],
 }
 
 console.log("data from slice > ", data);
@@ -18,19 +19,33 @@ export const tableSlice = createSlice({
   name: "table",
   initialState,
   reducers: {
-    onStatusFilter(state, action) {
-      if (action.payload !== "All"){
-        state.tableRows = data.filter(row => row.status == action.payload);
+    changeBuyingList(state, action){
+      const rowIndex = state.buyingList.indexOf(action.payload);
+      if ( rowIndex >= 0 ) {
+        state.buyingList.splice(rowIndex, 1);
       } else {
-        state.tableRows = data;
+        state.buyingList.push(action.payload);
       }
     },
-    onTypeFilter(state, action) {
-      if (action.payload !== "All"){
-        state.tableRows = data.filter(row => row.type == action.payload);
-      } else {
-        state.tableRows = data;
+    setFilter(state, action) {
+      console.log("action.payload.status filter >>> ", action.payload.status);
+      console.log("action.payload.type filter >>> ", action.payload.type);
+      state.filters.status = action.payload.status;
+      state.filters.type = action.payload.type;
+      console.log("filters state > ", state.filters);
+    },
+    handleFilter(state) {
+      let filteringData = [...data];
+
+      if (state.filters.status !== "All"){
+        filteringData = filteringData.filter(row => row.status === state.filters.status);
       }
+      if (state.filters.type !== "All"){
+        state.tableRows = filteringData.filter(row => row.type === state.filters.type);
+      } else {
+        state.tableRows = filteringData;
+      }
+
     },
     handleSort(state, action) {
       const sortingArray = [...data];
@@ -47,4 +62,4 @@ export const tableSlice = createSlice({
 });
 
 export default tableSlice.reducer;
-export const { onStatusFilter, onTypeFilter, handleSort } = tableSlice.actions;
+export const { handleSort, setFilter, handleFilter, changeBuyingList } = tableSlice.actions;

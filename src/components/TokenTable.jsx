@@ -1,27 +1,25 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { onStatusFilter, onTypeFilter } from "../store/slice/tableSlice.js";
+import { status, type } from "../data/dataFilters.js";
+// import { changeBuyingList } from "../store/slice/tableSlice.js";
 import { SortingIcon } from "./SortingIcon.jsx";
 import "./TokenTable.scss";
 
-export const TokenTable = ({ items, onSort, columns, sortField, filters }) => {
-    const [statustate, setStatuState] = useState("");
-    const [typetate, setTypeState] = useState("");
-    // const filters = useSelector(state => state.table.filters);
+const columns = [
+    {label: "Project", dataField: "name"},
+    {label: "Token type", dataField: "type"},
+    {label: "Conditions", dataField: "conditions"},
+    {label: "Volume", dataField: "volume"},
+    {label: "roi", dataField: "roi"},
+    {label: "Free float", dataField: "free"},
+    {label: "Insurance hedge", dataField: "hedge"},
+];
+
+export const TokenTable = ({ items, onSort, sortField, filters, onFilter, onBuy }) => {
     const sortOrder = useSelector(state => state.table.sortOrder);
-    const dispatch = useDispatch();
-
-    const handleStatusFilter = (e) => {
-        setStatuState(e.target.value);
-        dispatch(onStatusFilter(e.target.value));
-    }
-    const handleTypeFilter = (e) => {
-        console.log(e.target.value);
-        setTypeState(e.target.value);
-        dispatch(onTypeFilter(e.target.value));
-    }
-
-    console.log("filters > ", filters);
+    const buyingList = useSelector(state => state.table.buyingList);
+    // const [isActive, setActive] = useState(false);
+    // const dispatch = useDispatch();
 
     return(
         <div>
@@ -32,18 +30,19 @@ export const TokenTable = ({ items, onSort, columns, sortField, filters }) => {
                             <label htmlFor="select-status">Status filter </label>
                             <select 
                                 name="select-status" 
-                                onChange={handleStatusFilter}
-                                value={statustate}>
-                                {filters.status.map((item, index) => (
+                                onChange={(e) => onFilter({status: e.target.value, type: filters.type})}
+                                value={filters.status}>
+                                {status.map((item, index) => (
                                     <option value={item} key={index}>{item}</option>
                                 ))}
                             </select></td>
                         <td>
                             <label htmlFor="select-type">Type filter </label>
                             <select name="select-type" 
-                                value={typetate}
-                                onChange={handleTypeFilter}>
-                                {filters.type.map((item, index) => (
+                                onChange={(e) => onFilter({status: filters.status, type: e.target.value})}
+                                value={filters.type}
+                                >
+                                {type.map((item, index) => (
                                     <option value={item} key={index}>{item}</option>
                                 ))}
                             </select></td>
@@ -81,6 +80,11 @@ export const TokenTable = ({ items, onSort, columns, sortField, filters }) => {
                                 <td>{row.roi} {"\u0025"}</td>
                                 <td>{row.free}</td>
                                 <td>{row.hedge} {"\u0025"}</td>
+                                <td>
+                                    <button 
+                                        className={ buyingList.includes(row.id) ? "buy-button active" : "buy-button"} 
+                                        onClick={() => onBuy(row.id)}
+                                        >Buy</button></td>
                             </tr>
                         ))
                     }

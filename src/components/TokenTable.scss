@@ -30,3 +30,15 @@ td {
   border-radius: 50%;
   margin-right: 0.5em;
 }
+.buy-button {
+  cursor: pointer;
+  border: 2px solid purple;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  background-color: inherit;
+  color: purple;
+}
+.active {
+  background-color: purple;
+  color: white;
+}
